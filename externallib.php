@@ -80,7 +80,7 @@ class moodle_enrol_stripepayment_external extends external_api {
         if (!$plugininstance) {
             throw new invalid_parameter_exception('Invalid instance ID');
         }
-
+        $courseid = $plugininstance->courseid;
         $cost = (float)$plugininstance->cost > 0 ? (float)$plugininstance->cost : (float)$plugin->get_config('cost');
         $cost = format_float($cost, 2, false);
 
@@ -88,6 +88,15 @@ class moodle_enrol_stripepayment_external extends external_api {
 
         try {
             $coupon = Coupon::retrieve($couponid);
+
+	    // Salus addition
+	    if (isset($coupon->metadata->courseid)) {
+		if ($coupon->metadata->courseid != $courseid) {
+		    // wrong course
+		    $coupon->valid = false;
+		}
+	    }
+
             if ($coupon->valid) {
                 if (isset($coupon->percent_off)) {
                     $cost -= $cost * ($coupon->percent_off / 100);
