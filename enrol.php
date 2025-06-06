@@ -40,9 +40,6 @@ $enrolbtncolor = $plugin->get_config('enrolbtncolor');
 <div class="strip-wrap">
     <div class="stripe-right">
         <p class='stripe-dclr'><?php print_string("paymentrequired") ?></p>
-        <div class="stripe-img">
-            <img src="<?php echo $CFG->wwwroot; ?>/enrol/stripepayment/pix/stripe-payment.png">
-        </div>
         <form id="form_data_new" action="" method="post">
             <input id="form_data_new_data" type="hidden" name="data" value="" />
             <input id="form_data_new_coupon_id" type="hidden" name="coupon_id" value="" />
@@ -55,7 +52,7 @@ $enrolbtncolor = $plugin->get_config('enrolbtncolor');
                 (float)$discount = $cost - $data;
                 $couponid = required_param('coupon_id', PARAM_RAW);
             ?>
-                <div class='stripe-line-left'><?php echo get_string("couponapplied", "enrol_stripepayment") . ":<span> - {$currency_symbol}{$discount} [<i>{$couponid}</i>] </span>"; ?></div>
+                <div class='stripe-line-left'><?php echo get_string("couponapplied", "enrol_stripepayment") . ":<span> - {$currency_symbol}{$discount} </span>"; ?></div>
             <?php } ?>
             <div id="reload">
                 <?php
@@ -92,6 +89,9 @@ $enrolbtncolor = $plugin->get_config('enrolbtncolor');
                     </div>
                     <?php $PAGE->requires->js_call_amd('enrol_stripepayment/stripe_payment', 'stripe_payment', array( $USER->id, $plugin->get_config('publishablekey'), $couponid, $instance->id, get_string("please_wait", "enrol_stripepayment"), get_string("buy_now", "enrol_stripepayment"), get_string("invalidcouponcode", "enrol_stripepayment"))); ?>
             </div>
+        </div>
+        <div class="stripe-img">
+            <img src="<?php echo $CFG->wwwroot; ?>/enrol/stripepayment/pix/stripe-payment.png">
         </div>
     </div>
 </div>
